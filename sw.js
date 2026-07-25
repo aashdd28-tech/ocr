@@ -1,24 +1,22 @@
-const CACHE = "ocr-v2";
+const CACHE = "ocr-v3";
 const FILES = ["/manifest.json", "/icon-192.svg", "/icon-512.svg"];
 
-self.addEventListener("install", (e) => {
-  e.waitUntil(caches.open(CACHE).then((c) => c.addAll(FILES)));
+self.addEventListener("install", function(e) {
+  e.waitUntil(caches.open(CACHE).then(function(c) { return c.addAll(FILES); }));
   self.skipWaiting();
 });
 
-self.addEventListener("activate", (e) => {
+self.addEventListener("activate", function(e) {
   e.waitUntil(
-    caches.keys().then((k) => Promise.all(k.filter((n) => n !== CACHE).map((n) => caches.delete(n))))
+    caches.keys().then(function(k) {
+      return Promise.all(k.filter(function(n) { return n !== CACHE; }).map(function(n) { return caches.delete(n); }));
+    })
   );
   self.clients.claim();
 });
 
-self.addEventListener("fetch", (e) => {
-  if (e.request.url.includes("tesseract") || e.request.url.includes("traineddata")) {
-    e.respondWith(fetch(e.request).catch(() => caches.match(e.request)));
-    return;
-  }
+self.addEventListener("fetch", function(e) {
   e.respondWith(
-    fetch(e.request).catch(() => caches.match(e.request))
+    fetch(e.request).then(function(r) { return r; }).catch(function() { return caches.match(e.request); })
   );
 });

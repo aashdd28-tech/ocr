@@ -4,12 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
 <meta name="theme-color" content="#1a73e8">
-<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <title>قارئ النصوص</title>
 <link rel="icon" href="icon-192.svg">
 <link rel="manifest" href="manifest.json">
-<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: system-ui,-apple-system,'Segoe UI',sans-serif; background: #f0f2f5; color: #1a1a2e; min-height: 100vh; }
@@ -49,7 +48,7 @@ header p { color: #666; font-size: 13px; margin-top: 4px; }
 <div class="container">
   <header>
     <h1>قارئ النصوص</h1>
-    <p>استخراج النص من الصور — يدعم العربية</p>
+    <p>استخراج النص من الصور — يدعم العربية والإنجليزية</p>
   </header>
 
   <div class="card">
@@ -80,79 +79,102 @@ header p { color: #666; font-size: 13px; margin-top: 4px; }
   <div class="hint">✓ يشتغل بدون إنترنت بعد أول تحميل</div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 <script>
-const $ = id => document.getElementById(id);
-const drop = $('dropArea'), inp = $('fileInput'), prev = $('preview');
-const res = $('result'), st = $('status'), bar = $('bar'), bf = $('barFill');
-const upIcon = $('uploadIcon'), dropText = $('dropText');
+(function(){
+  var dropArea=document.getElementById("dropArea"),
+      fileInput=document.getElementById("fileInput"),
+      preview=document.getElementById("preview"),
+      result=document.getElementById("result"),
+      status=document.getElementById("status"),
+      bar=document.getElementById("bar"),
+      barFill=document.getElementById("barFill"),
+      uploadIcon=document.getElementById("uploadIcon"),
+      dropText=document.getElementById("dropText");
 
-let worker = null;
-let pg = 0;
+  var worker=null;
+  var progress=0;
 
-async function getWorker() {
-  if (!worker) {
-    st.innerHTML = '<span class="spinner"></span> تحميل المحرك...';
-    worker = await Tesseract.createWorker('ara+eng', 1);
-    st.textContent = '✓ المحرك جاهز';
+  function updateProgress(){
+    barFill.style.width=Math.round(progress*100)+"%";
+    requestAnimationFrame(updateProgress);
   }
-  return worker;
-}
+  updateProgress();
 
-function showPreview(file) {
-  const r = new FileReader();
-  r.onload = e => {
-    prev.src = e.target.result;
-    prev.style.display = 'block';
-    upIcon.style.display = 'none';
-    dropText.textContent = file.name;
+  function log(msg){status.innerHTML='<span class="spinner"></span> '+msg;}
+
+  async function ensureWorker(){
+    if(!worker){
+      log("تحميل المحرك...");
+      worker=await Tesseract.createWorker("ara+eng");
+      status.textContent="✓ المحرك جاهز";
+    }
+    return worker;
+  }
+
+  async function processImage(file){
+    result.textContent="...";
+    bar.style.display="block";
+    barFill.style.width="0%";
+    progress=0;
+
+    try{
+      log("جاري القراءة...");
+      var w=await ensureWorker();
+      progress=0.1;
+      var r=await w.recognize(file);
+      progress=1;
+      result.textContent=r.data.text||"(ما لقيت نص)";
+      status.textContent="✅ تم";
+    }catch(e){
+      bar.style.display="none";
+      status.textContent="❌ "+e.message;
+    }
+  }
+
+  function showPreview(file){
+    var reader=new FileReader();
+    reader.onload=function(e){
+      preview.src=e.target.result;
+      preview.style.display="block";
+      uploadIcon.style.display="none";
+      dropText.textContent=file.name;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  dropArea.onclick=function(){fileInput.click();};
+  fileInput.onchange=function(){
+    if(fileInput.files[0]){showPreview(fileInput.files[0]);processImage(fileInput.files[0]);}
   };
-  r.readAsDataURL(file);
-}
 
-function resetPreview() {
-  prev.style.display = 'none';
-  upIcon.style.display = '';
-  dropText.textContent = 'اضغط أو اسحب صورة';
-}
+  dropArea.ondragover=function(e){e.preventDefault();dropArea.classList.add("dragover");};
+  dropArea.ondragleave=function(){dropArea.classList.remove("dragover");};
+  dropArea.ondrop=function(e){
+    e.preventDefault();dropArea.classList.remove("dragover");
+    if(e.dataTransfer.files[0]){
+      fileInput.files=e.dataTransfer.files;
+      showPreview(e.dataTransfer.files[0]);
+      processImage(e.dataTransfer.files[0]);
+    }
+  };
 
-async function process(file) {
-  res.textContent = '...';
-  st.innerHTML = '<span class="spinner"></span> جاري القراءة...';
-  bar.style.display = 'block';
-  bf.style.width = '0%';
+  document.getElementById("cameraBtn").onclick=function(){
+    fileInput.setAttribute("capture","environment");fileInput.click();fileInput.removeAttribute("capture");
+  };
+  document.getElementById("uploadBtn").onclick=function(){
+    fileInput.removeAttribute("capture");fileInput.click();
+  };
+  document.getElementById("copyBtn").onclick=function(){
+    navigator.clipboard.writeText(result.textContent);alert("تم النسخ!");
+  };
+  document.getElementById("clearBtn").onclick=function(){
+    result.textContent="...";fileInput.value="";bar.style.display="none";status.textContent="";
+    preview.style.display="none";uploadIcon.style.display="";dropText.textContent="اضغط أو اسحب صورة";
+  };
 
-  try {
-    const w = await getWorker();
-    const { data } = await w.recognize(file);
-    res.textContent = data.text || '(ما لقيت نص)';
-    bf.style.width = '100%';
-    st.textContent = '✅ تم';
-  } catch (e) {
-    bar.style.display = 'none';
-    st.textContent = '❌ ' + e.message;
-  }
-}
-
-drop.onclick = () => inp.click();
-inp.onchange = async () => {
-  if (inp.files[0]) { showPreview(inp.files[0]); await process(inp.files[0]); }
-};
-drop.ondragover = e => { e.preventDefault(); drop.classList.add('dragover'); };
-drop.ondragleave = () => drop.classList.remove('dragover');
-drop.ondrop = async e => {
-  e.preventDefault(); drop.classList.remove('dragover');
-  if (e.dataTransfer.files[0]) { inp.files = e.dataTransfer.files; showPreview(e.dataTransfer.files[0]); await process(e.dataTransfer.files[0]); }
-};
-$('cameraBtn').onclick = () => { inp.setAttribute('capture','environment'); inp.click(); inp.removeAttribute('capture'); };
-$('uploadBtn').onclick = () => { inp.removeAttribute('capture'); inp.click(); };
-$('copyBtn').onclick = () => { navigator.clipboard.writeText(res.textContent); alert('تم النسخ!'); };
-$('clearBtn').onclick = () => { res.textContent = '...'; inp.value = ''; bar.style.display = 'none'; st.textContent = ''; resetPreview(); };
-
-getWorker();
-
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('sw.js');
-}
+  ensureWorker();
+})();
 </script>
 </body>
 </html>

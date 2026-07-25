@@ -91,7 +91,7 @@ let worker = null;
 async function getWorker() {
   if (!worker) {
     st.innerHTML = '<span class="spinner"></span> تحميل المحرك...';
-    worker = await Tesseract.createWorker('ara');
+    worker = await Tesseract.createWorker('ara', 1, { langPath: './' });
     st.textContent = '✓ المحرك جاهز';
   }
   return worker;

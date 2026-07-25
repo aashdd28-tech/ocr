@@ -1,0 +1,15 @@
+{
+  "name": "قارئ النصوص",
+  "short_name": "قارئ النصوص",
+  "description": "استخراج النص من الصور — OCR عربي",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f0f2f5",
+  "theme_color": "#1a73e8",
+  "dir": "rtl",
+  "lang": "ar",
+  "icons": [
+    { "src": "icon-192.svg", "type": "image/svg+xml", "sizes": "192x192" },
+    { "src": "icon-512.svg", "type": "image/svg+xml", "sizes": "512x512" }
+  ]
+}

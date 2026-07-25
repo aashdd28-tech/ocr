@@ -91,7 +91,12 @@ let worker = null;
 async function getWorker() {
   if (!worker) {
     st.innerHTML = '<span class="spinner"></span> تحميل المحرك...';
-    worker = await Tesseract.createWorker('ara', 1, { langPath: './' });
+    worker = await Tesseract.createWorker('ara+eng', 1, {
+      logger: m => {
+        if (m.status === 'loading language traineddata') st.innerHTML = '<span class="spinner"></span> تحميل اللغة... ' + Math.round(m.progress * 100) + '%';
+        if (m.status === 'initializing api') st.innerHTML = '<span class="spinner"></span> تهيئة المحرك...';
+      }
+    });
     st.textContent = '✓ المحرك جاهز';
   }
   return worker;
@@ -122,7 +127,7 @@ async function process(file) {
 
   try {
     const w = await getWorker();
-    const { data } = await w.recognize(file, 'ara', {}, (p) => {
+    const { data } = await w.recognize(file, {}, { blocks: false, text: true }, (p) => {
       if (p.status === 'recognizing text') bf.style.width = Math.round(p.progress * 100) + '%';
     });
     res.textContent = data.text || '(ما لقيت نص)';

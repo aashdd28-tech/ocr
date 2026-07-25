@@ -10,38 +10,38 @@
 <link rel="icon" href="icon-192.svg">
 <link rel="manifest" href="manifest.json">
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: system-ui,-apple-system,'Segoe UI',sans-serif; background: #f0f2f5; color: #1a1a2e; min-height: 100vh; }
-.container { max-width: 600px; margin: 0 auto; padding: 16px; }
-header { text-align: center; padding: 24px 0 16px; }
-header h1 { font-size: 24px; color: #1a73e8; }
-header p { color: #666; font-size: 13px; margin-top: 4px; }
-.card { background: #fff; border-radius: 16px; padding: 20px; box-shadow: 0 1px 8px rgba(0,0,0,.06); margin-bottom: 12px; }
-.drop-area { border: 2px dashed #d0d5dd; border-radius: 12px; padding: 32px 16px; text-align: center; cursor: pointer; transition: .2s; }
-.drop-area.dragover, .drop-area:hover { border-color: #1a73e8; background: #f5f9ff; }
-.drop-area .icon { font-size: 40px; color: #1a73e8; margin-bottom: 8px; }
-.drop-area p { color: #5f6368; font-size: 14px; }
-#preview { max-width: 100%; max-height: 280px; border-radius: 10px; display: none; margin: 0 auto; }
-.row { display: flex; gap: 10px; margin-top: 12px; }
-.btn { flex: 1; padding: 13px; border: none; border-radius: 10px; font-size: 15px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; }
-.btn-primary { background: #1a73e8; color: #fff; }
-.btn-primary:hover { background: #1557b0; }
-.btn-secondary { background: #e8eaed; color: #3c4043; }
-.btn-secondary:hover { background: #d2d5d9; }
-.btn:disabled { opacity: .5; }
-.bar { width: 100%; height: 4px; background: #e8eaed; border-radius: 4px; overflow: hidden; margin-top: 10px; display: none; }
-.bar-fill { height: 100%; width: 0; background: #1a73e8; transition: width .3s; }
-.result-wrap { margin-top: 14px; }
-.result-wrap h3 { font-size: 14px; color: #3c4043; margin-bottom: 6px; }
-.result-box { background: #f8f9fa; border-radius: 10px; padding: 14px; min-height: 70px; border: 1px solid #e8eaed; font-size: 15px; line-height: 1.7; white-space: pre-wrap; word-break: break-word; text-align: right; }
-.actions { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
-.actions button { padding: 7px 14px; border: 1px solid #dadce0; border-radius: 8px; background: #fff; cursor: pointer; font-size: 13px; color: #3c4043; }
-.actions button:hover { background: #f1f3f4; }
-.status { text-align: center; font-size: 13px; color: #5f6368; padding: 6px; margin-top: 4px; }
-.spinner { width: 18px; height: 18px; border: 3px solid #e8eaed; border-top-color: #1a73e8; border-radius: 50%; animation: spin .7s linear infinite; display: inline-block; vertical-align: middle; }
-@keyframes spin { to { transform: rotate(360deg); } }
-.hint { text-align: center; font-size: 12px; color: #999; margin-top: 20px; }
-.confidence { display: inline-block; background: #e6f4ea; color: #137333; padding: 2px 8px; border-radius: 8px; font-size: 11px; margin-top: 4px; }
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,-apple-system,'Segoe UI',sans-serif;background:#f0f2f5;color:#1a1a2e;min-height:100vh}
+.container{max-width:600px;margin:0 auto;padding:16px}
+header{text-align:center;padding:24px 0 16px}
+header h1{font-size:24px;color:#1a73e8}
+header p{color:#666;font-size:13px;margin-top:4px}
+.card{background:#fff;border-radius:16px;padding:20px;box-shadow:0 1px 8px rgba(0,0,0,.06);margin-bottom:12px}
+.drop-area{border:2px dashed #d0d5dd;border-radius:12px;padding:32px 16px;text-align:center;cursor:pointer;transition:.2s}
+.drop-area.dragover,.drop-area:hover{border-color:#1a73e8;background:#f5f9ff}
+.drop-area .icon{font-size:40px;color:#1a73e8;margin-bottom:8px}
+.drop-area p{color:#5f6368;font-size:14px}
+#preview{max-width:100%;max-height:280px;border-radius:10px;display:none;margin:0 auto}
+.row{display:flex;gap:10px;margin-top:12px}
+.btn{flex:1;padding:13px;border:none;border-radius:10px;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px}
+.btn-primary{background:#1a73e8;color:#fff}
+.btn-primary:hover{background:#1557b0}
+.btn-secondary{background:#e8eaed;color:#3c4043}
+.btn-secondary:hover{background:#d2d5d9}
+.btn:disabled{opacity:.5}
+.bar{width:100%;height:4px;background:#e8eaed;border-radius:4px;overflow:hidden;margin-top:10px;display:none}
+.bar-fill{height:100%;width:0;background:#1a73e8;transition:width .3s}
+.result-wrap{margin-top:14px}
+.result-wrap h3{font-size:14px;color:#3c4043;margin-bottom:6px}
+.result-box{background:#f8f9fa;border-radius:10px;padding:14px;min-height:70px;border:1px solid #e8eaed;font-size:15px;line-height:1.7;white-space:pre-wrap;word-break:break-word;text-align:right}
+.actions{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+.actions button{padding:7px 14px;border:1px solid #dadce0;border-radius:8px;background:#fff;cursor:pointer;font-size:13px;color:#3c4043}
+.actions button:hover{background:#f1f3f4}
+.status{text-align:center;font-size:13px;color:#5f6368;padding:6px;margin-top:4px}
+.spinner{width:18px;height:18px;border:3px solid #e8eaed;border-top-color:#1a73e8;border-radius:50%;animation:spin .7s linear infinite;display:inline-block;vertical-align:middle}
+@keyframes spin{to{transform:rotate(360deg)}}
+.hint{text-align:center;font-size:12px;color:#999;margin-top:20px}
+.confidence{display:inline-block;background:#e6f4ea;color:#137333;padding:2px 8px;border-radius:8px;font-size:11px;margin-top:4px}
 </style>
 </head>
 <body>
@@ -84,16 +84,9 @@ header p { color: #666; font-size: 13px; margin-top: 4px; }
 <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 <script>
 (function(){
-
 var worker=null;
-var progress=0;
 
-var barFill=document.getElementById("barFill");
-function updateProgress(){barFill.style.width=Math.round(progress*100)+"%";requestAnimationFrame(updateProgress);}
-updateProgress();
 function log(msg){document.getElementById("status").innerHTML='<span class="spinner"></span> '+msg;}
-
-/* ========== IMAGE PREPROCESSING ========== */
 
 function loadImage(file){
   return new Promise(function(resolve){
@@ -103,196 +96,14 @@ function loadImage(file){
   });
 }
 
-function toCanvas(img,maxW){
+function prepareCanvas(img){
   var w=img.width,h=img.height;
+  var maxW=2400;
   if(w>maxW){var s=maxW/w;w=maxW;h=Math.round(h*s);}
   var c=document.createElement("canvas");c.width=w;c.height=h;
   c.getContext("2d").drawImage(img,0,0,w,h);
   return c;
 }
-
-function getPixels(canvas){
-  var ctx=canvas.getContext("2d");
-  return ctx.getImageData(0,0,canvas.width,canvas.height);
-}
-
-function setPixels(canvas,data){
-  canvas.getContext("2d").putImageData(data,0,0);
-}
-
-function grayscale(data){
-  var px=data.data;
-  for(var i=0;i<px.length;i+=4){
-    var g=Math.round(px[i]*0.299+px[i+1]*0.587+px[i+2]*0.114);
-    px[i]=g;px[i+1]=g;px[i+2]=g;
-  }
-}
-
-function medianFilter(data,w,h){
-  var px=data.data;
-  var copy=new Uint8ClampedArray(px);
-  var dirs=[[-1,-1],[-1,0],[-1,1],[0,-1],[0,0],[0,1],[1,-1],[1,0],[1,1]];
-  for(var y=1;y<h-1;y++){
-    for(var x=1;x<w-1;x++){
-      var vals=[];
-      for(var d=0;d<dirs.length;d++){
-        var nx=x+dirs[d][0],ny=y+dirs[d][1];
-        var idx=(ny*w+nx)*4;
-        vals.push(copy[idx]);
-      }
-      vals.sort(function(a,b){return a-b;});
-      var mid=vals[4];
-      var idx=(y*w+x)*4;
-      px[idx]=mid;px[idx+1]=mid;px[idx+2]=mid;
-    }
-  }
-}
-
-function adaptiveThreshold(data,w,h,blockSize,C){
-  var px=data.data;
-  var gray=new Int32Array(w*h);
-  for(var i=0;i<w*h;i++) gray[i]=px[i*4];
-  var integral=new Float64Array((w+1)*(h+1));
-  for(var y=0;y<h;y++){
-    var rowSum=0;
-    for(var x=0;x<w;x++){
-      rowSum+=gray[y*w+x];
-      integral[(y+1)*(w+1)+(x+1)]=rowSum+(y>0?integral[y*(w+1)+(x+1)]:0);
-    }
-  }
-  var half=Math.floor(blockSize/2);
-  for(var y=0;y<h;y++){
-    for(var x=0;x<w;x++){
-      var x1=Math.max(0,x-half),y1=Math.max(0,y-half);
-      var x2=Math.min(w-1,x+half),y2=Math.min(h-1,y+half);
-      var count=(x2-x1+1)*(y2-y1+1);
-      var sum=integral[(y2+1)*(w+1)+(x2+1)]-integral[y1*(w+1)+(x2+1)]-integral[(y2+1)*(w+1)+x1]+integral[y1*(w+1)+x1];
-      var thresh=(sum/count)-C;
-      var v=gray[y*w+x]<thresh?0:255;
-      var idx=(y*w+x)*4;
-      px[idx]=v;px[idx+1]=v;px[idx+2]=v;
-    }
-  }
-}
-
-function enhanceContrast(data,factor){
-  var px=data.data;
-  for(var i=0;i<px.length;i+=4){
-    for(var c=0;c<3;c++){
-      px[i+c]=Math.max(0,Math.min(255,((px[i+c]/255-0.5)*factor+0.5)*255));
-    }
-  }
-}
-
-function sharpen(canvas){
-  var ctx=canvas.getContext("2d");
-  var w=canvas.width,h=canvas.height;
-  var src=ctx.getImageData(0,0,w,h);
-  var dst=ctx.createImageData(w,h);
-  var sx=src.data,dx=dst.data;
-  var k=[0,-1,0,-1,5,-1,0,-1,0];
-  for(var y=1;y<h-1;y++){
-    for(var x=1;x<w-1;x++){
-      var vals=[0,0,0];
-      for(var ky=-1;ky<=1;ky++){
-        for(var kx=-1;kx<=1;kx++){
-          var idx=((y+ky)*w+(x+kx))*4;
-          var ki=(ky+1)*3+(kx+1);
-          vals[0]+=sx[idx]*k[ki];
-          vals[1]+=sx[idx+1]*k[ki];
-          vals[2]+=sx[idx+2]*k[ki];
-        }
-      }
-      var idx=(y*w+x)*4;
-      dx[idx]=Math.max(0,Math.min(255,vals[0]));
-      dx[idx+1]=Math.max(0,Math.min(255,vals[1]));
-      dx[idx+2]=Math.max(0,Math.min(255,vals[2]));
-      dx[idx+3]=255;
-    }
-  }
-  ctx.putImageData(dst,0,0);
-}
-
-function autoRotate(img){
-  var w=img.width,h=img.height;
-  if(w>h*1.3){
-    var c=document.createElement("canvas");c.width=h;c.height=w;
-    var ctx=c.getContext("2d");
-    ctx.translate(h/2,w/2);ctx.rotate(Math.PI/2);ctx.drawImage(img,-w/2,-h/2);
-    return c;
-  }
-  return null;
-}
-
-/* ========== PREPROCESSING PIPELINES ========== */
-
-function pipelineA(img){
-  var c=toCanvas(img,1800);
-  sharpen(c);
-  var d=getPixels(c);
-  grayscale(d);
-  medianFilter(d,c.width,c.height);
-  enhanceContrast(d,1.6);
-  setPixels(c,d);
-  adaptiveThreshold(d,c.width,c.height,15,8);
-  setPixels(c,d);
-  return c;
-}
-
-function pipelineB(img){
-  var c=toCanvas(img,2000);
-  sharpen(c);
-  var d=getPixels(c);
-  grayscale(d);
-  enhanceContrast(d,1.8);
-  setPixels(c,d);
-  adaptiveThreshold(d,c.width,c.height,25,10);
-  setPixels(c,d);
-  return c;
-}
-
-/* ========== OCR ENGINE ========== */
-
-async function initWorker(){
-  if(!worker){
-    log("تحميل المحرك...");
-    worker=await Tesseract.createWorker("ara+eng",1,{
-      langPath:"https://tessdata.projectnaptha.com/4.0.0_best"
-    });
-    status.textContent="✓ المحرك جاهز";
-  }
-  return worker;
-}
-
-function ocrPass(canvas,psm){
-  var w=worker;
-  return w.recognize(canvas,{psm:psm});
-}
-
-function extractBestText(result){
-  if(!result||!result.data) return {text:"",conf:0};
-  var words=result.data.words||[];
-  var lines=result.data.lines||[];
-  if(lines.length===0) return {text:result.data.text||"",conf:0};
-  var filtered=[];
-  for(var i=0;i<lines.length;i++){
-    var line=lines[i];
-    if(line.confidence>30){
-      filtered.push(line.text.trim());
-    }
-  }
-  var avgConf=0;
-  if(filtered.length>0){
-    var total=0,count=0;
-    for(var i=0;i<lines.length;i++){
-      if(lines[i].confidence>30){total+=lines[i].confidence;count++;}
-    }
-    avgConf=count>0?total/count:0;
-  }
-  return {text:filtered.join("\n"),conf:avgConf};
-}
-
-/* ========== ARABIC POST-PROCESSING ========== */
 
 function fixArabic(text){
   text=text.replace(/[\u0610-\u061A]/g,"");
@@ -311,65 +122,75 @@ function fixArabic(text){
   return text.trim();
 }
 
-/* ========== MULTI-PASS OCR ========== */
+async function initWorker(){
+  if(!worker){
+    log("تحميل النموذج...");
+    worker=await Tesseract.createWorker("ara+eng",1,{
+      langPath:"https://tessdata.projectnaptha.com/4.0.0_best"
+    });
+  }
+  return worker;
+}
 
 async function processImage(file){
   var resultEl=document.getElementById("result");
+  var barEl=document.getElementById("bar");
+  var barFill=document.getElementById("barFill");
   var statusEl=document.getElementById("status");
   var confEl=document.getElementById("confidence");
-  var barEl=document.getElementById("bar");
 
   resultEl.textContent="...";
   confEl.textContent="";
   barEl.style.display="block";
   barFill.style.width="0%";
-  progress=0;
+  statusEl.innerHTML='<span class="spinner"></span> تحميل الصورة...';
 
   try{
-    log("تحسين الصورة...");
     var img=await loadImage(file);
-    progress=0.1;
+    barFill.style.width="10%";
 
-    var rotated=autoRotate(img);
+    var canvas=prepareCanvas(img);
 
-    log("القراءة الأولى...");
-    var c1=pipelineA(rotated||img);
+    statusEl.innerHTML='<span class="spinner"></span> تحميل النموذج...';
     await initWorker();
-    progress=0.3;
-    var r1=await ocrPass(c1,6);
-    var t1=extractBestText(r1);
-    progress=0.5;
+    barFill.style.width="30%";
 
-    log("القراءة الثانية...");
-    var c2=pipelineB(rotated||img);
-    progress=0.6;
-    var r2=await ocrPass(c2,3);
-    var t2=extractBestText(r2);
-    progress=0.8;
+    statusEl.innerHTML='<span class="spinner"></span> قراءة النص...';
+    barFill.style.width="50%";
 
-    var best,finalConf;
-    if(t1.conf>=t2.conf){best=t1;finalConf=t1.conf;}
-    else{best=t2;finalConf=t2.conf;}
+    var result=await worker.recognize(canvas);
+    barFill.style.width="90%";
 
-    var fixed=fixArabic(best.text);
+    var words=result.data.words||[];
+    var lines=result.data.lines||[];
+    var text="";
+    var totalConf=0;
+    var count=0;
 
-    if(fixed.length<5&&t1.conf!==t2.conf){
-      var other=t1.conf<t2.conf?t1:t2;
-      var otherFixed=fixArabic(other.text);
-      if(otherFixed.length>fixed.length){fixed=otherFixed;finalConf=other.conf;}
+    for(var i=0;i<lines.length;i++){
+      var line=lines[i];
+      if(line.confidence>40){
+        text+=line.text.trim()+"\n";
+        totalConf+=line.confidence;
+        count++;
+      }
     }
 
-    progress=1;
-    resultEl.textContent=fixed||"(ما لقيت نص)";
-    confEl.innerHTML='<span class="confidence">الثقة: '+Math.round(finalConf)+'%</span>';
+    text=text.trim();
+    if(!text) text="(ما لقيت نص)";
+    else text=fixArabic(text);
+
+    var avgConf=count>0?Math.round(totalConf/count):0;
+
+    barFill.style.width="100%";
+    resultEl.textContent=text;
+    confEl.innerHTML='<span class="confidence">الثقة: '+avgConf+'%</span>';
     statusEl.textContent="✅ تم";
   }catch(e){
     barEl.style.display="none";
     statusEl.textContent="❌ "+e.message;
   }
 }
-
-/* ========== UI EVENTS ========== */
 
 function showPreview(file){
   var r=new FileReader();

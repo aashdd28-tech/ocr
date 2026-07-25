@@ -1,4 +1,4 @@
-const CACHE = "ocr-v4";
+const CACHE = "ocr-v5";
 const FILES = ["/manifest.json", "/icon-192.svg", "/icon-512.svg"];
 
 self.addEventListener("install", function(e) {
